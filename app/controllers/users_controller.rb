@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  def index
+    render :index
+  end
+
   def new
     @user = User.new
     render :new
@@ -8,6 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
+      login!(@user)
       redirect_to @user
     else
       flash.now[:errors] = @user.errors.full_messages
