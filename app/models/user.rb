@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   attr_reader :password
   after_initialize :ensure_session_token
 
+  has_many :goals
+
   def self.find_by_credentials(uname, pwd)
     @user = User.find_by_username(uname)
     if @user.nil? || !@user.is_password?(pwd)

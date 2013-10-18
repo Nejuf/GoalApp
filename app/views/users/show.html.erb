@@ -1,1 +1,26 @@
-<h1>Show User </h1>
+<h2>My Goals (You can do it!)</h2>
+<ul>
+	<% @user.goals.each do |goal| %>
+
+		<li>
+			<%= button_to done_or_notdone(goal), done_goal_url(goal), method: :put %>
+			<%= "<s>".html_safe if goal.complete %>
+
+				<%= link_to goal.name, edit_goal_url(goal) %>
+			<%= "</s>".html_safe if goal.complete %>
+			 |
+			<%= button_to("Remove", goal_url(goal), :method => :delete ) %> |
+			<%= button_to private_or_public(goal), toggle_goal_url(goal), :method => :put %>
+		</li>
+	<% end %>
+</ul>
+
+
+<form action="<%= goals_url %>" method="post" accept-charset="utf-8">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" id="authenticity_token">
+
+	<input type="text" name="goal[name]" value="" id="goal_name">
+
+	<input type="submit" value="Add Goal">
+</form>
+
