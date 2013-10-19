@@ -1,4 +1,7 @@
 class GoalsController < ApplicationController
+  before_filter :current_user_is_owner, :except => [:create]
+  before_filter :logged_in?, :only => [:create]
+
   def create
     @goal = Goal.new(params[:goal])
     @goal.user_id = current_user.id
@@ -61,4 +64,12 @@ class GoalsController < ApplicationController
       redirect_to current_user
     end
   end
+
+  private
+    def current_user_is_owner
+      if current_user.nil? ||
+          current_user.id != Goal.find_by_id(params[:id]).user_id
+          redirect_to new_session_url
+      end
+    end
 end

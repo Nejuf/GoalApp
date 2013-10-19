@@ -6,6 +6,8 @@ describe Goal do
 
   it { should belong_to :user }
 
+  it { should have_many :cheers}
+
   it "defaults to public" do
     g = FactoryGirl.create(:goal)
     g.is_private.should eq false

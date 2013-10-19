@@ -1,11 +1,15 @@
 class User < ActiveRecord::Base
   attr_accessible :password, :username
+  attr_reader :password
+
   validates :username, presence: true, uniqueness: true
   validates :password, length: {minimum: 6, allow_nil: true}
-  attr_reader :password
+
+
   after_initialize :ensure_session_token
 
   has_many :goals
+  has_many :cheers
 
   def self.find_by_credentials(uname, pwd)
     @user = User.find_by_username(uname)
